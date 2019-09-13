@@ -5,11 +5,13 @@ import com.github.ajalt.clikt.parameters.groups.single
 import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
 
-sealed class Processes {
-    data class Firmware(val filename: String) : Processes()
-    data class FirmwareLess(val filename: String) : Processes()
-    data class NonArb(val filename: String) : Processes()
-    data class Vendor(val filename: String) : Processes()
+sealed class Process(val filename: String) {
+    val type: String = javaClass.simpleName
+
+    data class Firmware(val fileName: String) : Process(fileName)
+    data class FirmwareLess(val fileName: String) : Process(fileName)
+    data class NonArb(val fileName: String) : Process(fileName)
+    data class Vendor(val fileName: String) : Process(fileName)
 }
 
 class ArgParse : CliktCommand(
@@ -22,16 +24,16 @@ class ArgParse : CliktCommand(
     firmware + vendor flashable zip, and firmware-less ROMs.
     """
 ) {
-    private val process: Processes? by mutuallyExclusiveOptions<Processes>(
+    private val process: Process by mutuallyExclusiveOptions<Process>(
         option("-F", "--firmware", help = "Create normal Firmware zip", metavar = "rom")
-            .convert { Processes.Firmware(it) },
+            .convert { Process.Firmware(it) },
         option("-N", "--nonarb", help = "Create non-ARB Firmware zip", metavar = "rom")
-            .convert { Processes.NonArb(it) },
+            .convert { Process.NonArb(it) },
         option("-L", "--firmwareless", help = "Create Firmware-less zip", metavar = "rom")
-            .convert { Processes.FirmwareLess(it) },
+            .convert { Process.FirmwareLess(it) },
         option("-V", "--vendor", help = "Create Firmware+Vendor zip", metavar = "rom")
-            .convert { Processes.Vendor(it) }
+            .convert { Process.Vendor(it) }
     ).single().required()
 
-    override fun run() = controller(process.toString())
+    override fun run() = controller(process)
 }
