@@ -21,6 +21,13 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+tasks {
+    wrapper {
+        gradleVersion = "5.6.2"
+        distributionType = Wrapper.DistributionType.ALL
+    }
+}
+
 task fatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'MainKt'
