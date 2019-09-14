@@ -53,9 +53,9 @@ fun checkFirmware(filename: String): MutableList<String> {
     } catch (ioe: IOException) {
         println("$ioe")
     }
-    if ("META-INF/com/google/android/update-binary" !in zipContent ||
-        "META-INF/com/google/android/updater-script" !in zipContent
-    ) {
+    val updaterBinaries = listOf("META-INF/com/google/android/update-binary", "META-INF/com/google/android/updater-script")
+    val isValidROM = zipContent.any { it == updaterBinaries[0] || it == updaterBinaries[1] }
+    if (isValidROM) {
         println("This zip isn't a valid ROM!")
         exitProcess(2)
     } else {
