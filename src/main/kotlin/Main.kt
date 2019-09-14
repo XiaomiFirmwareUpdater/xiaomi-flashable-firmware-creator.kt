@@ -138,7 +138,7 @@ fun getCodename(lines: String): String {
     var codename: String
     val regex = Regex("/([a-z]*):")
     codename = regex.findAll(lines).map { it.groupValues[1] }.joinToString()
-    if (codename == "") {
+    if (codename.isEmpty()) {
         val regexAlt = Regex("get_device_compatible\\(\"([a-z]*)")
         codename = regexAlt.findAll(lines).map { it.groupValues[1] }.joinToString()
     }
