@@ -15,7 +15,7 @@ import java.util.zip.ZipFile
 import kotlin.streams.toList
 import kotlin.system.exitProcess
 
-fun init() {
+fun initDirs() {
     // Initial cleanup and housekeeping
     File("tmp").deleteRecursively()
     File("out").deleteRecursively()
@@ -23,7 +23,7 @@ fun init() {
     File("tmp/META-INF/com/google/android/").mkdirs()
 }
 
-fun pre(): Pair<String, String> {
+fun getDateAndHostName(): Pair<String, String> {
     // Sets today data and hostname
     val timeFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     val today: String = LocalDateTime.now().format(timeFormat)
@@ -71,7 +71,7 @@ fun prepareOut(zipContent: MutableList<String>) {
     }
 }
 
-fun firmwareType(zipContent: MutableList<String>): String {
+fun getFirmwareType(zipContent: MutableList<String>): String {
     return if ("firmware-update" in zipContent.toString()) "qcom" else "mtk"
 }
 
@@ -110,7 +110,7 @@ fun extractFirmware(filename: String, zipContent: MutableList<String>) {
 // TODO rom_extract
 // TODO vendor_extract
 
-fun correctUpdateScript(lines: List<String>): MutableList<String> {
+fun fixupUpdaterScript(lines: List<String>): MutableList<String> {
     val updaterScript: MutableList<String> = mutableListOf()
     lines.forEach {
         when {
@@ -145,7 +145,7 @@ fun getCodename(lines: String): String {
     return codename
 }
 
-fun firmwareUpdater(today: String, host: String): String {
+fun generateUpdaterScript(today: String, host: String): String {
     println("Generating updater-script..")
     var updaterLines: MutableList<String> = mutableListOf()
     File("tmp/META-INF/com/google/android/updater-script").useLines { lines ->
@@ -158,7 +158,7 @@ fun firmwareUpdater(today: String, host: String): String {
             }
         }
     }
-    updaterLines = correctUpdateScript(updaterLines)
+    updaterLines = fixupUpdaterScript(updaterLines)
     File("out/META-INF/com/google/android/updater-script").also {
         it.writeText("show_progress(0.200000, 10);\n\n")
         it.appendText(
@@ -241,14 +241,14 @@ fun renameOutput(process: Process, codename: String) {
 
 fun controller(process: Process) {
     println("Generating ${process.type} ZIP from ${process.fileName}")
-    init()
-    val (today: String, host: String) = pre()
+    initDirs()
+    val (today: String, host: String) = getDateAndHostName()
     val zipContent: MutableList<String> = checkFirmware(process.fileName)
-    val fwType: String = firmwareType(zipContent)
+    val fwType: String = getFirmwareType(zipContent)
     println("$fwType ROM detected")
     prepareOut(zipContent)
     extractFirmware(process.fileName, zipContent)
-    val codename = firmwareUpdater(today, host)
+    val codename = generateUpdaterScript(today, host)
     makeZip()
     renameOutput(process, codename)
     println("All Done!")
