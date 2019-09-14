@@ -212,7 +212,7 @@ fun makeZip() {
 }
 
 fun renameOutput(process: Process, codename: String) {
-    val filename = process.filename
+    val filename = process.fileName
     when (process.type) {
         "Firmware" -> Files.move(
             Paths.get("out.zip"),
@@ -240,14 +240,14 @@ fun renameOutput(process: Process, codename: String) {
 // TODO main
 
 fun controller(process: Process) {
-    println("Generating ${process.type} ZIP from ${process.filename}")
+    println("Generating ${process.type} ZIP from ${process.fileName}")
     init()
     val (today: String, host: String) = pre()
-    val zipContent: MutableList<String> = checkFirmware(process.filename)
+    val zipContent: MutableList<String> = checkFirmware(process.fileName)
     val fwType: String = firmwareType(zipContent)
     println("$fwType ROM detected")
     prepareOut(zipContent)
-    extractFirmware(process.filename, zipContent)
+    extractFirmware(process.fileName, zipContent)
     val codename = firmwareUpdater(today, host)
     makeZip()
     renameOutput(process, codename)
