@@ -44,6 +44,10 @@ class ArgParse : CliktCommand(
             val firmware = FirmwareExtractor(process)
             firmware.extract()
         }
+        is Process.NonArb -> {
+            val nonArb = NonArbExtractor(process)
+            nonArb.extract()
+        }
         else -> {
             println("Unsupported!")
         }
