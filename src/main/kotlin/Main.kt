@@ -72,9 +72,8 @@ fun prepareOut(zipContent: MutableList<String>) {
     }
 }
 
-fun getFirmwareType(zipContent: MutableList<String>): String {
-    return if ("firmware-update" in zipContent.toString()) "qcom" else "mtk"
-}
+fun getFirmwareType(zipContent: MutableList<String>): String =
+    if ("firmware-update" in zipContent.toString()) "qcom" else "mtk"
 
 fun extractFile(zipName: String, toExtract: List<String>) {
     File("tmp/firmware-update/").mkdirs()
