@@ -22,8 +22,7 @@ class FirmwareExtractor(process: Process) : BaseExtractor(process) {
         val updaterScriptLines: MutableList<String> = mutableListOf()
         File("tmp/META-INF/com/google/android/updater-script").useLines { lines ->
             lines.forEach {
-                if (it.contains("getprop") ||
-                    it.contains("Target") ||
+                if (it.contains("getprop") || it.contains("Target") ||
                     it.contains("firmware-update")
                 ) {
                     updaterScriptLines.add(it)
