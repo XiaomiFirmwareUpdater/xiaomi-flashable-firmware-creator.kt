@@ -19,16 +19,17 @@ class FirmwareExtractor(process: Process) : BaseExtractor(process) {
     }
 
     private fun firmwareUpdaterScript(): MutableList<String> {
+        var updaterScriptLines: MutableList<String> = mutableListOf()
         File("tmp/META-INF/com/google/android/updater-script").useLines { lines ->
             lines.forEach {
                 if (it.contains("getprop") ||
                     it.contains("Target") ||
                     it.contains("firmware-update")
                 ) {
-                    updaterLines.add(it)
+                    updaterScriptLines.add(it)
                 }
             }
         }
-        return updaterLines
+        return updaterScriptLines
     }
 }
