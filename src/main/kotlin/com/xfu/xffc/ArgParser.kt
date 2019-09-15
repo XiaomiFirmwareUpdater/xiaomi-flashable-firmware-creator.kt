@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.groups.required
 import com.github.ajalt.clikt.parameters.groups.single
 import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
+import kotlin.system.exitProcess
 
 sealed class Process(val fileName: String) {
     val type: String = javaClass.simpleName
@@ -37,5 +38,17 @@ class ArgParse : CliktCommand(
             .convert { Process.Vendor(it) }
     ).single().required()
 
-    override fun run() = controller(process)
+//    override fun run() = controller
+    override fun run() {
+    when (process.type) {
+        "Firmware" ->  {
+            val firmware = FirmwareExtractor(process)
+            firmware.initDirs()
+            firmware.checkFirmware()
+        }
+        else -> {
+            println("Unsupported!")
+        }
+    }
+}
 }
