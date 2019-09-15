@@ -45,6 +45,12 @@ class ArgParse : CliktCommand(
             val firmware = FirmwareExtractor(process)
             firmware.initDirs()
             firmware.checkFirmware()
+            val fwType: String = firmware.getFirmwareType()
+            firmware.extractFirmware()
+            val codename: String = firmware.generateUpdaterScript()
+            println(codename)
+            firmware.makeZip()
+            firmware.cleanUp()
         }
         else -> {
             println("Unsupported!")
