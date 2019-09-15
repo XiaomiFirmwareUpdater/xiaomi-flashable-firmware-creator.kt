@@ -1,3 +1,5 @@
+package com.xfu.xffc
+
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.groups.mutuallyExclusiveOptions
 import com.github.ajalt.clikt.parameters.groups.required
@@ -25,13 +27,13 @@ class ArgParse : CliktCommand(
     """
 ) {
     private val process: Process by mutuallyExclusiveOptions<Process>(
-        option("-F", "--firmware", help = "Create normal Firmware zip", metavar = "rom")
+        option("-F", "--firmware", help = "Create normal Firmware zip", metavar = "ROM")
             .convert { Process.Firmware(it) },
-        option("-N", "--nonarb", help = "Create non-ARB Firmware zip", metavar = "rom")
+        option("-N", "--nonarb", help = "Create non-ARB Firmware zip", metavar = "ROM")
             .convert { Process.NonArb(it) },
-        option("-L", "--firmwareless", help = "Create Firmware-less zip", metavar = "rom")
+        option("-L", "--firmwareless", help = "Create Firmware-less zip", metavar = "ROM")
             .convert { Process.FirmwareLess(it) },
-        option("-V", "--vendor", help = "Create Firmware+Vendor zip", metavar = "rom")
+        option("-V", "--vendor", help = "Create Firmware+Vendor zip", metavar = "ROM")
             .convert { Process.Vendor(it) }
     ).single().required()
 
