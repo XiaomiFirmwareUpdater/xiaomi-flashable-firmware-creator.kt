@@ -2,7 +2,7 @@ package com.xfu.xffc
 
 import java.io.File
 
-class FirmwareLessExtractor (process: Process) : BaseExtractor(process) {
+class FirmwareLessExtractor(process: Process) : BaseExtractor(process) {
 
     override val toExtract: List<String> by lazy { firmwareLessFilter() }
     override val updaterLines: MutableList<String> by lazy { firmwareLessUpdaterScript() }
