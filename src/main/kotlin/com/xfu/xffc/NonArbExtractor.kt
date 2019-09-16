@@ -7,6 +7,10 @@ class NonArbExtractor (process: Process) : BaseExtractor(process) {
     override val toExtract: List<String> by lazy { nonArbFilter() }
     override val updaterLines: MutableList<String> by lazy { nonArbUpdaterScript() }
 
+    init {
+        File("tmp/firmware-update/").mkdirs()
+    }
+
     private fun nonArbFilter(): List<String> {
         return zipContent.filter {
             it.startsWith("firmware-update/dspso.bin") ||

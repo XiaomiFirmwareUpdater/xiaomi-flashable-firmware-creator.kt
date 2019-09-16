@@ -7,6 +7,10 @@ class FirmwareExtractor(process: Process) : BaseExtractor(process) {
     override val toExtract: List<String> by lazy { firmwareFilter() }
     override val updaterLines: MutableList<String> by lazy { firmwareUpdaterScript() }
 
+    init {
+        File("tmp/firmware-update/").mkdirs()
+    }
+
     private fun firmwareFilter(): List<String> {
         return zipContent.filter {
             it.startsWith("firmware-update/") ||
