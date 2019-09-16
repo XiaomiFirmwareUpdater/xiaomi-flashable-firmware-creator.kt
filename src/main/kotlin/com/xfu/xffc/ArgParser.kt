@@ -37,20 +37,25 @@ class ArgParse : CliktCommand(
             .convert { Process.Vendor(it) }
     ).single().required()
 
-//    override fun run() = controller
+    //    override fun run() = controller
     override fun run() {
-    when (process) {
-        is Process.Firmware ->  {
-            val firmware = FirmwareExtractor(process)
-            firmware.extract()
-        }
-        is Process.NonArb -> {
-            val nonArb = NonArbExtractor(process)
-            nonArb.extract()
-        }
-        else -> {
-            println("Unsupported!")
+        when (process) {
+            is Process.Firmware -> {
+                val firmware = FirmwareExtractor(process)
+                firmware.extract()
+            }
+            is Process.NonArb -> {
+                val nonArb = NonArbExtractor(process)
+                nonArb.extract()
+            }
+            is Process.FirmwareLess -> {
+                val firmwareLess = FirmwareLessExtractor(process)
+                firmwareLess.extract()
+            }
+            is Process.Vendor -> {
+                val vendor = VendorExtractor(process)
+                vendor.extract()
+            }
         }
     }
-}
 }
