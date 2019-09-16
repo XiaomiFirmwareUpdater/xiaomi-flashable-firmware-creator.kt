@@ -17,7 +17,7 @@ import java.util.zip.ZipFile
 import kotlin.streams.toList
 import kotlin.system.exitProcess
 
-open class BaseExtractor(process: Process) {
+open class BaseExtractor(private val process: Process) {
     private val fileName: String = process.fileName
     private val type: String = process.type
     private val today: String = getDate()
@@ -138,8 +138,7 @@ open class BaseExtractor(process: Process) {
     private fun makeZip() {
         println("Compressing...")
         val env: HashMap<String, Any> = hashMapOf("create" to "true", "useTempFile" to true)
-        // locate file system by using the syntax
-        // defined in java.net.
+        // locate file system by using the syntax defined in java.net.
         val zipLocation: Path = FileSystems.getDefault().getPath("out.zip").toAbsolutePath()
         val uri: URI = URI.create("jar:file:$zipLocation")
         // files paths corrections
@@ -170,23 +169,23 @@ open class BaseExtractor(process: Process) {
     }
 
     private fun renameOutput() {
-        when (type) {
-            "Firmware" -> Files.move(
+        when (process) {
+            is Process.Firmware -> Files.move(
                 Paths.get("out.zip"),
                 Paths.get("fw_${codename}_$fileName"),
                 StandardCopyOption.REPLACE_EXISTING
             )
-            "FirmwareLess" -> Files.move(
+            is Process.FirmwareLess -> Files.move(
                 Paths.get("out.zip"),
                 Paths.get("fw-less_${codename}_$fileName"),
                 StandardCopyOption.REPLACE_EXISTING
             )
-            "NonArb" -> Files.move(
+            is Process.NonArb -> Files.move(
                 Paths.get("out.zip"),
                 Paths.get("fw-non-arb_${codename}_$fileName"),
                 StandardCopyOption.REPLACE_EXISTING
             )
-            "Vendor" -> Files.move(
+            is Process.Vendor -> Files.move(
                 Paths.get("out.zip"),
                 Paths.get("fw-vendor_${codename}_$fileName"),
                 StandardCopyOption.REPLACE_EXISTING
