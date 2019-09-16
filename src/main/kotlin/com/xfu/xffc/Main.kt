@@ -6,15 +6,11 @@ import com.github.ajalt.clikt.parameters.groups.required
 import com.github.ajalt.clikt.parameters.groups.single
 import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.option
-
-sealed class Process(val fileName: String) {
-    val type: String = javaClass.simpleName
-
-    class Firmware(fileName: String) : Process(fileName)
-    class FirmwareLess(fileName: String) : Process(fileName)
-    class NonArb(fileName: String) : Process(fileName)
-    class Vendor(fileName: String) : Process(fileName)
-}
+import com.xfu.xffc.extractors.FirmwareExtractor
+import com.xfu.xffc.extractors.FirmwareLessExtractor
+import com.xfu.xffc.extractors.NonArbExtractor
+import com.xfu.xffc.extractors.Process
+import com.xfu.xffc.extractors.VendorExtractor
 
 class ArgParse : CliktCommand(
     name = "xffc",

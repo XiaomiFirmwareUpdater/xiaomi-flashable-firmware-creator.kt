@@ -1,4 +1,4 @@
-package com.xfu.xffc
+package com.xfu.xffc.extractors
 
 import java.io.File
 
