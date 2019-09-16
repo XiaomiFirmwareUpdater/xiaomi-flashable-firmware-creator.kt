@@ -2,7 +2,7 @@ package com.xfu.xffc
 
 import java.io.File
 
-class VendorExtractor (process: Process) : BaseExtractor(process) {
+class VendorExtractor(process: Process) : BaseExtractor(process) {
 
     override val toExtract: List<String> by lazy { vendorFilter() }
     override val updaterLines: MutableList<String> by lazy { vendorUpdaterScript() }
@@ -14,7 +14,7 @@ class VendorExtractor (process: Process) : BaseExtractor(process) {
 
     private fun vendorFilter(): List<String> {
         return zipContent.filterNot {
-            it.startsWith("system") || it.startsWith("boot")
+            it.startsWith("system") || it.startsWith("boot.img")
         }
     }
 

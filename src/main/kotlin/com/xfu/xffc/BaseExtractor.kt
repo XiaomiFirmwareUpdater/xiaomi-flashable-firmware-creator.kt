@@ -24,7 +24,7 @@ open class BaseExtractor(process: Process) {
     private val host: String = InetAddress.getLocalHost().hostName
     val zipContent: MutableList<String> = mutableListOf()
     private var codename: String = ""
-    private var romType: String = ""
+    internal var romType: String = ""
     open val toExtract: List<String> = listOf()
     open val updaterLines: MutableList<String> = mutableListOf()
 

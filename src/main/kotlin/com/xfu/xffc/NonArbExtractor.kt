@@ -2,7 +2,7 @@ package com.xfu.xffc
 
 import java.io.File
 
-class NonArbExtractor (process: Process) : BaseExtractor(process) {
+class NonArbExtractor(process: Process) : BaseExtractor(process) {
 
     override val toExtract: List<String> by lazy { nonArbFilter() }
     override val updaterLines: MutableList<String> by lazy { nonArbUpdaterScript() }
