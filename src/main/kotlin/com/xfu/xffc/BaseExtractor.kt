@@ -137,7 +137,7 @@ open class BaseExtractor(process: Process) {
 
     private fun makeZip() {
         println("Compressing...")
-        val env: HashMap<String, String> = hashMapOf("create" to "true")
+        val env: HashMap<String, Any> = hashMapOf("create" to "true", "useTempFile" to true)
         // locate file system by using the syntax
         // defined in java.net.
         val zipLocation: Path = FileSystems.getDefault().getPath("out.zip").toAbsolutePath()
