@@ -30,7 +30,8 @@ class FirmwareExtractor(process: Process) : BaseExtractor(process) {
             if (romType == "qcom") {
                 lines.forEach {
                     if (it.contains("getprop") || it.contains("Target") ||
-                        it.contains("firmware-update")
+                        it.contains("firmware-update") && !it.contains("dtbo.img") &&
+                        !it.contains("vbmeta.img") && !it.contains("splash")
                     ) {
                         updaterScriptLines.add(it)
                     }
