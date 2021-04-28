@@ -1,0 +1,13 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: friday
+    timezone: Africa/Cairo
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.jetbrains.kotlin.jvm
+    versions:
+    - 1.4.31
