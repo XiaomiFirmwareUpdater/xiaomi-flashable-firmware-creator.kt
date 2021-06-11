@@ -1,6 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.5.10'
-    id "com.diffplug.gradle.spotless" version "5.12.5"
+    id "com.diffplug.gradle.spotless" version "5.13.0"
 }
 
 apply from: "spotless.gradle"
